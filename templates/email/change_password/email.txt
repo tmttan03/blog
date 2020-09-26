@@ -1,0 +1,3 @@
+Howdy, {{ full_name }}!
+
+You have change your password.

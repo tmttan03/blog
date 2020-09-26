@@ -1,0 +1,135 @@
+{% extends "initial/base.html" %}
+{% load widget_tweaks static %}
+{% block content %}
+<div class="container-scroller">
+    {% include "initial/top_nav.html" %}
+
+    <div class="container-fluid page-body-wrapper">
+        {% include "initial/side_nav.html" %}
+    
+        <div class="main-panel">          
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-4 grid-margin grid-margin-md-0 stretch-card">
+                      <div class="card" style="height: fit-content!important;">
+                          <div class="card-body text-center">
+                              <div>
+                                  <img src="{{ request.user.avatar.url }}" class="img-lg rounded-circle mb-2" alt="profile image">
+                                  <h4>{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                                  <p class="text-muted mb-0"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> &nbsp; {{ request.user.location }}</p>
+                              </div>
+                              <p class="mt-2 card-text">
+                                {{ request.user.bio }}
+                              </p>
+                              <button class="btn btn-secondary btn-sm mt-3 mb-4">Edit Profile</button>
+                              <div class="border-top pt-3">
+                                  <div class="row">
+                                      <div class="col-4">
+                                          <h6>5896</h6>
+                                          <p>Post</p>
+                                      </div>
+                                      <div class="col-4">
+                                          <h6>1596</h6>
+                                          <p>Followers</p>
+                                      </div>
+                                      <div class="col-4">
+                                          <h6>7896</h6>
+                                          <p>Likes</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        
+                          <div class="card-body">
+                            <h4 class="card-title">Recommended</h4>
+
+                            {% for user in users %}
+                              <div class="d-flex align-items-center pb-3 border-bottom">
+                                <img class="img-sm rounded-circle" src="{{ user.avatar.url }}" alt="profile">
+                                <div class="ml-3">
+                                  <h6 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h6>
+                                  <small class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> {{ user.location }}</small>
+                                </div>
+                                <i class="mdi mdi-check-circle-outline font-weight-bold ml-auto px-1 py-1 text-info mdi-24px"></i>
+                                <a class="btn btn-info btn-sm mt-3 mb-4" href="{% url 'user:follow-user' user.id %}">Follow</a>
+                              </div>
+                            {% endfor %}
+                            
+                            <div class="d-flex align-items-center py-3 border-bottom">
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face6.jpg' %}" alt="profile">
+                              <div class="ml-3">
+                                <h6 class="mb-1">Daniel Russel</h6>
+                                <small class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> Florida, USA</small>
+                              </div>
+                              <i class="mdi mdi-plus-circle-outline font-weight-bold ml-auto px-1 py-1 text-success mdi-24px"></i>
+                              <button class="btn btn-info btn-sm mt-3 mb-4">Follow</button>
+                            </div>
+                            <div class="d-flex align-items-center py-3 border-bottom">
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face7.jpg' %}" alt="profile">
+                              <div class="ml-3">
+                                <h6 class="mb-1">Bruno King</h6>
+                                <small class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> Arkansas, USA</small>
+                              </div>
+                              <i class="mdi mdi-check-circle-outline font-weight-bold ml-auto px-1 py-1 text-info mdi-24px"></i>
+                              <button class="btn btn-info btn-sm mt-3 mb-4">Follow</button>
+                            </div>
+                            <div class="d-flex align-items-center py-3 border-bottom">
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="profile">
+                              <div class="ml-3">
+                                <h6 class="mb-1">David Moore</h6>
+                                <small class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> Arizon, USA</small>
+                              </div>
+                              <i class="mdi mdi-plus-circle-outline font-weight-bold ml-auto px-1 py-1 text-success mdi-24px"></i>
+                              <button class="btn btn-info btn-sm mt-3 mb-4">Follow</button>
+                            </div>
+                            <div class="d-flex align-items-center pt-3">
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face9.jpg' %}" alt="profile">
+                              <div class="ml-3">
+                                <h6 class="mb-1">Rafell John</h6>
+                                <small class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> Alaska, USA</small>
+                              </div>
+                              <i class="mdi mdi-plus-circle-outline font-weight-bold ml-auto px-1 py-1 text-success mdi-24px"></i>
+                              <button class="btn btn-info btn-sm mt-3 mb-4">Follow</button>
+                            </div>
+                          </div>
+                      </div> 
+                    </div>
+                    <div class="col-md-8 grid-margin grid-margin-md-0 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Posts</h4>
+                                  {%  for post in posts  %}
+                                    <div class="card">
+                                        <img class="card-img-top" 
+                                             src="{{ post.cover.url }}" alt="Card image cap" 
+                                             style="width: 750px; height: 350px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <h4 class="card-title mt-3">
+                                                {{ post.title }}  
+                                                {% if post.status == 'Draft' %}
+                                                    <div class="badge badge-primary badge-pill">Draft</div>
+                                                {% endif %}
+                                            </h4>
+                                            <p class="card-text mb-2">
+                                                {{ post.content | truncatewords_html:30 }} 
+                                                <small><a href="{% url 'post:detail-page' post.slug %}">Read More ...</a></small>
+                                            </p>
+                                            
+                                        </div>
+                                    </div> <br>
+                                {% empty %}
+                                    <p>No Posts Yet. Try Creating New Posts.</p>
+                                {%  endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include "initial/footer.html" %}
+            <!-- partial -->
+        </div>
+    </div>
+</div>
+{% endblock content %}

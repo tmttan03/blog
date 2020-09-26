@@ -1,0 +1,35 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+    
+        {% if request.resolver_match.url_name == 'detail-page' %}
+            <li class="nav-item {% if request.resolver_match.url_name == 'detail-page' %}active{% endif %}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'detail-page' %}active{% endif %}">
+                    <i class="fa fa-user m-r-10 menu-icon" aria-hidden="true"></i>
+                    <span class="menu-title">Preview</span>
+                </a>
+            </li>    
+        {% endif %}
+
+        <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                <i class="fas fa-home menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item {% if request.resolver_match.url_name == 'manage-posts' %}active{% endif %}">
+            <a class="nav-link {% if request.resolver_match.url_name == 'manage-posts' %}active{% endif %}" href="{% url 'post:manage-posts' %}">
+                <i class="fab fa-firstdraft m-r-10 menu-icon" aria-hidden="true"></i>
+                <span class="menu-title">Manage Posts</span>
+            </a>
+        </li>
+
+        <li class="nav-item {% if request.resolver_match.url_name == 'new-post' %}active{% endif %}">
+            <a class="nav-link {% if request.resolver_match.url_name == 'new-post' %}active{% endif %}" href="{% url 'post:new-post' %}">
+                <i class="fas fa-plus m-r-10 menu-icon" aria-hidden="true"></i></i>
+                <span class="menu-title">Create New Post</span>
+            </a>
+        </li>
+
+    </ul>
+</nav>

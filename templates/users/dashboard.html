@@ -1,0 +1,44 @@
+{% extends "initial/base.html" %}
+{% load static widget_tweaks  %}
+{% block content %}
+<div class="container-scroller">
+    {% include "initial/top_nav.html" %}
+
+    <div class="container-fluid page-body-wrapper">
+        {% include "initial/side_nav.html" %}
+    
+        <div class="main-panel">          
+            <div class="content-wrapper">
+              <div class="card-columns">
+
+                {%  for post in posts  %}
+                    <div class="card">
+                        <img class="card-img-top" src="{{ post.cover.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title mt-3">
+                                {{ post.title }}  
+                                {% if post.status == 'Draft' %}
+                                    <div class="badge badge-primary badge-pill">Draft</div>
+                                {% endif %}
+                            </h4>
+                            <p class="card-text mb-2">
+                                {{ post.content | truncatewords_html:30 }} 
+                                <small><a href="{% url 'post:detail-page' post.slug %}">Read More ...</a></small>
+                            </p>
+                            
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No Posts Yet. Try Creating New Posts.</p>
+                {%  endfor %}
+
+              </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include "initial/footer.html" %}
+            <!-- partial -->
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,7 @@
+Howdy, {{ full_name }}!
+
+It's really difficult to keep track of passwords! But worry not, we are here to help you.
+
+Change your password with the link below:
+
+{{ token }}

@@ -1,0 +1,83 @@
+{% extends "initial/base.html" %}
+{% load widget_tweaks static %}
+{% block content %}
+<div class="container-scroller">
+    {% include "initial/top_nav.html" %}
+
+    <div class="container-fluid page-body-wrapper">
+        {% include "initial/side_nav.html" %}
+    
+        <div class="main-panel">          
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                          <div class="card-body">
+                            <h2 class="card-title">Your Posts</h2>
+
+                            <div class="table-responsive">
+                              <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                      <th scope="col"></th>
+                                      <th scope="col">COVER</th>
+                                      <th scope="col">TITLE</th>
+                                      <th scope="col">AUTHOR</th>
+                                      <th scope="col">STATUS</th>
+                                      <th scope="col">DATE CREATED</th>
+                                      <th scope="col">LAST UPDATED</th>
+                                      <th scope="col"></th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {%  for post in posts  %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td><img class="card-img-top img-responsive" src="{{ post.cover.url }}" alt="Card" style="height: 45px; width: 50px; object-fit: cover;"></td>
+                                            <td>{{ post.title }}</td>
+                                            <td>{{ post.author.get_full_name }}</td>
+                                            <td>{{ post.status }}</td>
+                                            <td>{{ post.created_at }}</td>
+                                            <td>{{ post.updated_at }}</td>
+                                            <td>
+                                                <a href="{% url 'post:update-post' post.id %}" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fas fa-pen-nib"></span></a>
+                            
+                                                {% if post.status != 'Published' %}
+                                                    <a href="#" id="openPublishBtn-{{ post.id }}" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#publishModal" data-action="{% url 'post:publish-post' post.id %}" title="Publish"><span class="fas fa-check-double"></span></a>
+                                                {% endif %}
+                
+                                                {% if post.status != 'Archived' %}
+                                                    <a href="#" id="openArchiveBtn-{{ post.id }}" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#archiveModal" data-action="{% url 'post:archive-post' post.id %}" title="Archive"><span class="far fa-folder-open"></span></a>
+                                                {% endif %}
+                
+                                                <a href="#" id="openDeleteBtn-{{ post.id }}" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#deleteModal" data-action="{% url 'post:delete-post' post.id %}" title="Delete"><span class="far fa-trash-alt"></span></a>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr class="text-muted"><td><p>No Posts Yet. Try Creating New Posts.</p></td></tr>
+                                    {%  endfor %}
+                                  </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            {% include "initial/footer.html" %}
+            <!-- partial -->
+
+            {% include "posts/modals/archive.html" %}
+            {% include "posts/modals/delete.html" %}
+            {% include "posts/modals/publish.html" %}
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}
